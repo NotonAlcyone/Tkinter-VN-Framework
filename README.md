@@ -1,32 +1,37 @@
 # Tkinter VisualNovel Framework
 
-## Basic 
 
-* Code start with
+
+### What is this?
+Python Framework for making VisualNovel
+
+### How to Script
+
+* Script start with
 ```python
 from Main import *
 ```
 
-* Code End with
+* Script end with
 ```pyhton
-update()
-canvas.bind("<Button-1>",KeyPressed)
+mainScene("main image")
 root.mainloop()
 ```
 
-##### Add Scene
+##### Add Scene and Character
 
 * Function **addcharacter()** can use as image output
 * All scene code must be end with **scenes.append(scene)**
 
 ```python
 scene = Scene("Background Image Name","Speecher","Speech")
-scene.addCharacter("Image Name",X position of character,Y position of character)
+scene.addCharacter("Image Name",X Position,Y Position)
 scenes.append(scene)
 ```
 ##### Add Encounter
 
 * All Encounter code must be end with **encounterDict[encounter scene number] = encounter**
+* Button click will give true to condition
 
 ```python
 encounter = Encounter(encounter scene number)
@@ -36,7 +41,7 @@ encounterDict[encounter scene number] = encounter
 ```
 ##### Add Branch
 
-* If condition is true, branchmaker will move  scene from CheckScene to Destination
+* If condition on encounter is true, branchmaker will move  scene from CheckScene to Destination
 ```python
 branchMaker(CheckScene,Destination,"Condition")
 ```
@@ -47,10 +52,13 @@ branchMaker(CheckScene,Destination,"Condition")
 root.title('Program Name')
 ```
 
+### What you need
+
+What you need is **Python 3**
 
 
 
 
-#### Contacts
-* [NotonAlcyone](notonalcyone@gmail.com) E-mail me for contacts
+## Contacts
+* [NotonAlcyone](notonalcyone@gmail.com) E-mail for contacts
 

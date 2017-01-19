@@ -1,12 +1,15 @@
 from Main import *
+
+
+
+
 root.title('Missile Continuous Launch System')#VN's nickname in korea :)
 
-
-scene = Scene("Forest.png","17Y","안녕 고양아")
+scene = Scene("Forest.png","17Y","안녕 고양아아아아아아아아아아아아아아아아아아아")
 scene.addCharacter("Character_Normal.png",canvasCenterX,canvasCenterY+100)
 scenes.append(scene)
 
-scene = Scene("Forest.png","Cat","myaaaaa")
+scene = Scene("Forest.png","Cat","myaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
 scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
 scenes.append(scene)
@@ -16,7 +19,7 @@ scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
 scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
 scenes.append(scene)
 
-scenes.append(scene) #Encounter Scene should be stay as empty
+scenes.append(scene) 
 
 scene = Scene("BackGround.png","Cat","myaaaaaa?")
 scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
@@ -55,6 +58,6 @@ branchMaker(4,6,"Negative")
 
 #############################
 
-update()
-canvas.bind("<Button-1>",KeyPressed)
+mainScene("Forest.png")
+
 root.mainloop()
