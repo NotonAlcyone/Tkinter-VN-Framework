@@ -1,64 +1,99 @@
-# Tkinter VisualNovel Framework
+# Tkinter Visualnovel Framework
 
+tkinter 라이브러리를 사용한 비주얼 노벨 프레임워크입니다.
 
+## 사용프로그램
+	
+* Python 3
+* tkinter 
 
-### What is this?
-Python Framework for making VisualNovel
+## 사용법
 
-### How to Script
-
-* Script start with
+프로젝트의 main.py 를 임포트 하고 씬,선택지,분기점등을 추가한 후 최하단에 root.mainloop()를 넣고 빌드합니다.
 ```python
-from Main import *
-```
-
-* Script end with
-```pyhton
-mainScene("main image")
+from main import *
+#################
+script here
+#################
 root.mainloop()
 ```
 
-##### Add Scene and Character
+### 씬 설정
 
-* Function **addcharacter()** can use as image output
-* All scene code must be end with **scenes.append(scene)**
-
+#### 배경과 대사 추가
 ```python
-scene = Scene("Background Image Name","Speecher","Speech")
-scene.addCharacter("Image Name",X Position,Y Position)
+scene = Scene("배경 이미지 경로", "화자", "대사")
+```
+* 배경이미지 경로,화자,대사 모두 문자열로 입력 받습니다.
+* 배경이미지는 ***.png 식으로 확장자이름도 전부 작성해줍니다.
+* 화자를 공백으로 넣고싶으시다면 "" 로 빈문자열을 넣어주세요.
+* 대사에 개행이 필요하다면 \n을 포함시킵니다. ex) "안녕하세요.\n반갑습니다."
+
+#### 이미지 추가
+```python
+scene.addCharacter("이미지 경로", X 좌표, Y 좌표)
+```
+* 이미지 경로는 문자열, X와 Y좌표는 정수를 입력 받습니다.
+
+#### 마무리
+```python
 scenes.append(scene)
 ```
-##### Add Encounter
+* 위에서 설정된 설정들을 실제로 씬리스트에 넣습니다.
+* 최초로 추가된 0번씬부터 시작해서 씬 번호가 1씩 증가하며 저장됩니다.
+* 단독으로 사용할경우 비어있는 씬이 씬리스트에 추가됩니다.
 
-* All Encounter code must be end with **encounterDict[encounter scene number] = encounter**
-* Button click will give true to condition
+#### 참고사항
+* **씬넘버는 0부터 시작됩니다**
+* 모든 이미지는 스틸샷으로 출력되며 GIF를 출력시킬경우 가장 첫 프레임만 출력됩니다.
 
+### 선택지 설정
+
+#### 선택지 추가
 ```python
-encounter = Encounter(encounter scene number)
-encounter.addSelect("Ask 1","Condition")
-encounter.addSelect("Ask 2","Condition")
-encounterDict[encounter scene number] = encounter
+encounter = Encounter(씬 번호)
 ```
-##### Add Branch
+* 씬넘버는 정수형을 입력받습니다.
 
-* If condition on encounter is true, branchmaker will move  scene from CheckScene to Destination
+#### 대답 추가
 ```python
-branchMaker(CheckScene,Destination,"Condition")
+encounter.addSelect("질문 대답", "조건 이름")
 ```
+* 질문 대답과 조건 이름 모두 문자형을 입력 받습니다
+* 조건 이름은 기본적으로 거짓의 값을 가지게 되며, 실제로 버튼이 눌렸을경우 참의 값이 저장됩니다.
 
-##### Etc.
-* You can change name by follow code
+#### 마무리
 ```python
-root.title('Program Name')
+encounterDict[씬 번호] = encounter
 ```
+* 씬 넘버는 정수형이고, 반드시 선택지를 추가했을때의 씬넘버와 같아야 합니다.
 
-### What you need
+#### 참고사항
+* **씬넘버는 0부터 시작됩니다**
+* 선택지에 추가질문이 출력되지 않기에, 이전 씬에서 관련 이야기를 두는것을 추천합니다.
+* 선택지가 삼입된 씬은 출력되지 않습니다. 해당씬은 빈씬으로 두는것을 추천합니다.
 
-What you need is **Python 3**
+### 분기점 설정
+#### 분기점 추가
+```python
+branchMaker(출발 씬 번호 ,도착 씬 번호 ,"조건 이름")
+```
+* 출발,도착 씬번호는 정수형을, 조건이름은 문자열을 입력 받습니다.
+* 출발씬을 출력하기 이전에 선택지에서 설정한 조건이 참일경우 씬을 강제로 도착 씬으로 옮깁니다
+* 사용된 조건이름은 반드시 선택지설정에서 미리 설정되어 있어야 합니다.
 
+### 대화창 설정
+* 기본적으로 사용된 대화창은 image/bar.png 입니다. 
+* 교체를 원하신다면 해당파일을 덮어 씌워주세요.
 
+### 타이틀 설정
+```python
+root.title("프로그램 이름")
+```
+* 따로 설정해주지 않는다면 "tk"로 출력됩니다.
 
+## 라이센스
+MIT License
 
-## Contacts
-* [NotonAlcyone](notonalcyone@gmail.com) E-mail for contacts
-
+## 기타
+* [NotonAlcyone](notonalcyone@gmail.com) 질문은 메일로 부탁드립니다.
