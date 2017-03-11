@@ -18,6 +18,9 @@ textPositionX = 50
 textPositionY = 480
 sceneNumber = 0
 
+barPath = "bar.png"
+imageFolder = "image/"
+
 ##############################################
 
 
@@ -29,11 +32,12 @@ parameterDict= {}
 
 class Scene:
 
-	def __init__(self,backgroundImagePath,speecher,speech):
+	def __init__(self,backgroundImagePath,speecher,speech,bar = True):
 		self.backgroundImagePath = backgroundImagePath
 		self.speecher = speecher
 		self.speech = speech
 		self.character = []
+		self.bar = bar
 		
 
 	def addCharacter(self,imagePath,x,y):
@@ -53,15 +57,18 @@ class Encounter:
 		self.selectList = []
 		self.check = False
 
-	def addSelect(self,select,parameterName):
-		self.selectList.append(SelectList(select,parameterName))
+	def addSelect(self,select,parameterName,factor):
+		self.selectList.append(SelectList(select,parameterName,factor))
 
 class SelectList:
 
-	def __init__(self,select,parameter):
+	def __init__(self,select,parameter,factor):
 		self.select = select
 		self.parameter = parameter
-		parameterDict[parameter] = False
+		if parameter not in parameterDict:
+			parameterDict[parameter] = 0
+		self.factor = factor
+
 wordPress = False
 Press = True #this is buttonPress check(sorry for pascal)
 def keyPressed(event):
@@ -83,7 +90,7 @@ def wordType(str,counter):
 	if counter <= len(str):
 		global text
 		global textInvoke
-		text = canvas.create_text(textPositionX,textPositionY,text=str[:counter],anchor = W)
+		text = canvas.create_text(textPositionX,textPositionY,text= str[:counter],anchor = W)
 		textInvoke = canvas.after(100,lambda:wordType(str,counter+1))
 		if counter < len(str):
 			canvas.after(99,lambda:wordDelete())
@@ -96,22 +103,23 @@ def wordCancel():
 	wordPress = False
 	canvas.after_cancel(textInvoke)
 	canvas.delete(text)
-	canvas.create_text(textPositionX,textPositionY,text =scenes[sceneNumber].speech,anchor = W)
+	canvas.create_text(textPositionX,textPositionY,text= scenes[sceneNumber].speech,anchor = W)
 
-def call(parameter):
+def call(parameter,factor):
 	global sceneNumber
 	global Press
 	Press = True
-	parameterDict[parameter] = True
+	parameterDict[parameter] += factor
 	encounterDict[sceneNumber].check = True
 	sceneNumber += 1
 	checker()
 
 def imageLoader(path):
+
 	if path in imagePath:
 		return imagePath[path]
 	else:
-		imagePath[path] = PhotoImage(file="image/"+path)
+		imagePath[path] = PhotoImage(file= imageFolder+path)
 		return imagePath[path]
 
 def update():
@@ -123,8 +131,13 @@ def update():
 	for i in range(0,len(call.character)):
 		charCall = call.character[i]
 		canvas.create_image(charCall.positionX,charCall.positionY,image = imageLoader(charCall.imagePath))
+	if scenes[sceneNumber].bar == True:
+		canvas.create_image(speechBarPositionX,speechBarPositionY,image=imageLoader(barPath))
+		"""
+		if scenes[sceneNumber].speecher != "":
 
-	canvas.create_image(speechBarPositionX,speechBarPositionY,image=imageLoader("Bar.png"))
+			canvas.create_image(namePostionX,namePostionY,image=imageLoader("namebar.png"))
+		"""
 	canvas.create_text(namePostionX,namePostionY,text = scenes[sceneNumber].speecher,font = "Helvetica 10",anchor = W)
 	wordType(scenes[sceneNumber].speech,0)
 	saveButton = Button(root,text = "Save",command = lambda: saver() )
@@ -160,14 +173,17 @@ def checker():
 	else:
 		update()
 
-def branchMaker(scene,destination,condition):
-	branchDict[scene] = {"destination":destination,"condition":condition}
+def branchMaker(scene,destination,condition,conditionNumber):
+	branchDict[scene] = {"destination":destination,"condition":condition,"conditionNumber":conditionNumber}
 
 def encounterShower():
 	global sceneNumber
+	encounterSpace = 55
+	encounterStart = (canvasSizeY - len(encounterDict[sceneNumber].selectList)*encounterSpace)/2
 	for i in range(0,len(encounterDict[sceneNumber].selectList)):
-		button = Button(root,text = encounterDict[sceneNumber].selectList[i].select,command = lambda i = i: call(encounterDict[sceneNumber].selectList[i].parameter) )
-		button_window = canvas.create_window(canvasCenterX,canvasCenterY + i*50,window = button)
+		button = Button(root,text = encounterDict[sceneNumber].selectList[i].select,command = lambda i = i: call(encounterDict[sceneNumber].selectList[i].parameter,encounterDict[sceneNumber].selectList[i].factor) )
+		button_window = canvas.create_window(canvasCenterX,encounterStart + i*encounterSpace,window = button)
+
 #############################
 def loader():
 	global sceneNumber
