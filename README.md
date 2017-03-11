@@ -2,6 +2,8 @@
 
 tkinter 라이브러리를 사용한 비주얼 노벨 프레임워크입니다.
 
+![sample](https://cloud.githubusercontent.com/assets/15938440/23822326/83f86082-068e-11e7-9805-c2ccef352f1a.png)
+
 ## 사용프로그램
 	
 * Python 3
@@ -21,6 +23,8 @@ root.mainloop()
 ### 씬 설정
 
 #### 배경과 대사 추가
+![sample3](https://cloud.githubusercontent.com/assets/15938440/23822359/181ea488-068f-11e7-88af-5f59f0241b90.png)
+
 ```python
 scene = Scene("배경 이미지 경로", "화자", "대사",대사창 유무)
 ```
@@ -50,7 +54,7 @@ scenes.append(scene)
 * 모든 이미지는 스틸샷으로 출력되며 GIF를 출력시킬경우 가장 첫 프레임만 출력됩니다.
 
 ### 선택지 설정
-
+![sample2](https://cloud.githubusercontent.com/assets/15938440/23822344/e1d831b4-068e-11e7-9b7c-c0ea917d8600.png)
 #### 선택지 추가
 ```python
 encounter = Encounter(씬 번호)
@@ -99,4 +103,4 @@ MIT License
 
 ## 기타
 * 프로젝트에 관한 질문은 [메일](notonalcyone@gmail.com)로 부탁드립니다.
-* 예시의 이미지는 [유라님](https://www.facebook.com/Astralsoo)이 수고해주셨습니다.
+* 예시의 이미지는 [유라](https://www.facebook.com/Astralsoo)님이 수고해주셨습니다.
