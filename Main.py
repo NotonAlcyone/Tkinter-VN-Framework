@@ -1,4 +1,5 @@
 from tkinter import *
+import pygame
 import os
 
 root = Tk()
@@ -20,11 +21,14 @@ textPositionY = 615
 sceneNumber = 0
 
 barPath = "Bar_Text.png"
+buttonPath = "Button.png"
+nameBarPath = "Bar_Name.png"
 imageFolder = "image/"
+voiceFolder = "voice/"
 
 nameFont = "Helvetica 15"
 textFont = "Helvetica 20"
-uiFont = "Helvetica 10"
+uiFont = "Courier 10"
 
 encounterSpace = 130
 
@@ -39,10 +43,11 @@ parameterDict= {}
 
 class Scene:
 
-	def __init__(self,backgroundImagePath,speecher,speech):
+	def __init__(self,backgroundImagePath,speecher,speech,voice = 0):
 		self.backgroundImagePath = backgroundImagePath
 		self.speecher = speecher
 		self.speech = speech
+		self.voice = voice
 		self.character = []
 		
 
@@ -87,6 +92,8 @@ def keyPressed(event):
 			wordPress = True
 			checker()
 		elif wordPress == True:
+			if scenes[sceneNumber].voice != 0:
+				voice.stop()
 			wordCancel()
 
 def wordType(str,counter):
@@ -140,11 +147,15 @@ def update():
 	if scenes[sceneNumber].speech != "":
 		canvas.create_image(speechBarPositionX,speechBarPositionY,image=imageLoader(barPath))
 	if scenes[sceneNumber].speecher != "":
-		canvas.create_image(namePostionX,namePostionY,image=imageLoader("Bar_Name.png"))
+		canvas.create_image(namePostionX,namePostionY,image=imageLoader(nameBarPath))
 		
 	canvas.create_text(namePostionX,namePostionY,text = scenes[sceneNumber].speecher,font = nameFont)
 	wordType(scenes[sceneNumber].speech,0)
-	saveButton = Button(root,text = "Save",command = lambda: saver(),relief=FLAT,compound= CENTER,image =imageLoader("Button.png"),font = uiFont )
+	global voice
+	if scenes[sceneNumber].voice != 0:
+		voice = pygame.mixer.Sound(voiceFolder+scenes[sceneNumber].voice)
+		voice.play()
+	saveButton = Button(root,text = "Save",command = lambda: saver(),relief=FLAT,compound= CENTER,image =imageLoader(buttonPath),font = uiFont )
 	saveButton_window = canvas.create_window(canvasSizeX - 100,50,window = saveButton)
 
 def saver():
@@ -217,13 +228,14 @@ def mainScene(background):
 
 	canvas.create_image(canvasCenterX,canvasCenterY,image = imageLoader(background))
 	
-	startButton = Button(root,anchor = W,text ="New Game",command = lambda:newStart(),relief=FLAT,compound= CENTER,image =imageLoader("Button.png"),font = uiFont )
+	startButton = Button(root,anchor = W,text ="New Game",command = lambda:newStart(),relief=FLAT,compound= CENTER,image =imageLoader(buttonPath),font = uiFont )
 	startButton_window = canvas.create_window(canvasSizeX - 100,canvasSizeY - 120,window = startButton)
 	
 
-	loadButton = Button(root,anchor = W, text = "Load Game",command = lambda:loader(),relief=FLAT,compound= CENTER,image =imageLoader("Button.png"),font = uiFont )
+	loadButton = Button(root,anchor = W, text = "Load Game",command = lambda:loader(),relief=FLAT,compound= CENTER,image =imageLoader(buttonPath),font = uiFont )
 	loadButton_window = canvas.create_window(canvasSizeX - 100,canvasSizeY - 50,window = loadButton)
 
 #############################	
 canvas = Canvas(root, width=canvasSizeX, height=canvasSizeY)
 canvas.pack()
+pygame.mixer.init()

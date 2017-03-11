@@ -28,6 +28,12 @@ scenes.append(scene)
 scene = Scene("Background.png","???","그게 너네 부모님돈이지 니 돈이냐!")
 scenes.append(scene)
 
+scene = Scene("Background.png","세린","하... 이 이야기 안꺼내기로 했잖아","Voice.wav")
+scenes.append(scene)
+
+scene = Scene("Background.png","???","틀린말은 아니잖아")
+scenes.append(scene)
+
 scene = Scene("Background.png","","창문을 통해보면 무슨 일인지 볼수있을텐데... 어떻게 하지?")
 scenes.append(scene)
 
@@ -70,19 +76,19 @@ encounter.addSelect("엿듣는다","Fine",1)
 encounter.addSelect("포기한다","ListenX",1)
 encounterDict[2] = encounter
 
-encounter = Encounter(9)
+encounter = Encounter(11)
 encounter.addSelect("엿본다","Fine",1)
 encounter.addSelect("포기한다","LookX",1)
-encounterDict[9] = encounter
+encounterDict[11] = encounter
 
 ###
 
-branchMaker(3,15,"ListenX",1)
-branchMaker(16,17,"ListenX",1)
+branchMaker(3,17,"ListenX",1)
+branchMaker(18,19,"ListenX",1)
 
-branchMaker(10,17,"LookX",1)
+branchMaker(12,19,"LookX",1)
 
-branchMaker(15,17,"Fine",2)
+branchMaker(17,19,"Fine",2)
 
 ###
 
