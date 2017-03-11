@@ -4,22 +4,29 @@ import os
 root = Tk()
 
 ##############################################
-canvasSizeX = 800 
-canvasSizeY = 600 
+canvasSizeX = 1280 
+canvasSizeY = 720 
 canvasCenterX = canvasSizeX/2
 canvasCenterY = canvasSizeY/2
 
 speechBarPositionX = canvasCenterX
-speechBarPositionY = 500
+speechBarPositionY = 620
 
-namePostionX = 50
-namePostionY = 450
-textPositionX = 50
-textPositionY = 480
+namePostionX = 192
+namePostionY = 520
+textPositionX = 70
+textPositionY = 615
+
 sceneNumber = 0
 
-barPath = "bar.png"
+barPath = "Bar_Text.png"
 imageFolder = "image/"
+
+nameFont = "Helvetica 15"
+textFont = "Helvetica 20"
+uiFont = "Helvetica 10"
+
+encounterSpace = 130
 
 ##############################################
 
@@ -32,12 +39,11 @@ parameterDict= {}
 
 class Scene:
 
-	def __init__(self,backgroundImagePath,speecher,speech,bar = True):
+	def __init__(self,backgroundImagePath,speecher,speech):
 		self.backgroundImagePath = backgroundImagePath
 		self.speecher = speecher
 		self.speech = speech
 		self.character = []
-		self.bar = bar
 		
 
 	def addCharacter(self,imagePath,x,y):
@@ -90,7 +96,7 @@ def wordType(str,counter):
 	if counter <= len(str):
 		global text
 		global textInvoke
-		text = canvas.create_text(textPositionX,textPositionY,text= str[:counter],anchor = W)
+		text = canvas.create_text(textPositionX,textPositionY,text= str[:counter],anchor = W,font = textFont)
 		textInvoke = canvas.after(100,lambda:wordType(str,counter+1))
 		if counter < len(str):
 			canvas.after(99,lambda:wordDelete())
@@ -103,7 +109,7 @@ def wordCancel():
 	wordPress = False
 	canvas.after_cancel(textInvoke)
 	canvas.delete(text)
-	canvas.create_text(textPositionX,textPositionY,text= scenes[sceneNumber].speech,anchor = W)
+	canvas.create_text(textPositionX,textPositionY,text= scenes[sceneNumber].speech,anchor = W,font = textFont)
 
 def call(parameter,factor):
 	global sceneNumber
@@ -131,17 +137,15 @@ def update():
 	for i in range(0,len(call.character)):
 		charCall = call.character[i]
 		canvas.create_image(charCall.positionX,charCall.positionY,image = imageLoader(charCall.imagePath))
-	if scenes[sceneNumber].bar == True:
+	if scenes[sceneNumber].speech != "":
 		canvas.create_image(speechBarPositionX,speechBarPositionY,image=imageLoader(barPath))
-		"""
-		if scenes[sceneNumber].speecher != "":
-
-			canvas.create_image(namePostionX,namePostionY,image=imageLoader("namebar.png"))
-		"""
-	canvas.create_text(namePostionX,namePostionY,text = scenes[sceneNumber].speecher,font = "Helvetica 10",anchor = W)
+	if scenes[sceneNumber].speecher != "":
+		canvas.create_image(namePostionX,namePostionY,image=imageLoader("Bar_Name.png"))
+		
+	canvas.create_text(namePostionX,namePostionY,text = scenes[sceneNumber].speecher,font = nameFont)
 	wordType(scenes[sceneNumber].speech,0)
-	saveButton = Button(root,text = "Save",command = lambda: saver() )
-	saveButton_window = canvas.create_window(canvasSizeX - 50,50,window = saveButton)
+	saveButton = Button(root,text = "Save",command = lambda: saver(),relief=FLAT,compound= CENTER,image =imageLoader("Button.png"),font = uiFont )
+	saveButton_window = canvas.create_window(canvasSizeX - 100,50,window = saveButton)
 
 def saver():
 	global sceneNumber
@@ -164,7 +168,7 @@ def checker():
 		else:
 			update()
 	elif sceneNumber in branchDict:
-		if parameterDict[branchDict[sceneNumber]["condition"]] == True:
+		if parameterDict[branchDict[sceneNumber]["condition"]] >= branchDict[sceneNumber]["conditionNumber"]:
 			sceneNumber = branchDict[sceneNumber]["destination"]
 			update()
 		else:
@@ -178,10 +182,10 @@ def branchMaker(scene,destination,condition,conditionNumber):
 
 def encounterShower():
 	global sceneNumber
-	encounterSpace = 55
+
 	encounterStart = (canvasSizeY - len(encounterDict[sceneNumber].selectList)*encounterSpace)/2
 	for i in range(0,len(encounterDict[sceneNumber].selectList)):
-		button = Button(root,text = encounterDict[sceneNumber].selectList[i].select,command = lambda i = i: call(encounterDict[sceneNumber].selectList[i].parameter,encounterDict[sceneNumber].selectList[i].factor) )
+		button = Button(root,text = encounterDict[sceneNumber].selectList[i].select,command = lambda i = i: call(encounterDict[sceneNumber].selectList[i].parameter,encounterDict[sceneNumber].selectList[i].factor),relief=FLAT,compound= CENTER,image =imageLoader("Bar_Select.png"),font = nameFont )
 		button_window = canvas.create_window(canvasCenterX,encounterStart + i*encounterSpace,window = button)
 
 #############################
@@ -213,11 +217,11 @@ def mainScene(background):
 
 	canvas.create_image(canvasCenterX,canvasCenterY,image = imageLoader(background))
 	
-	startButton = Button(root,anchor = W,text ="New Game",command = lambda:newStart())
-	startButton_window = canvas.create_window(canvasSizeX - 100,canvasSizeY - 100,window = startButton)
+	startButton = Button(root,anchor = W,text ="New Game",command = lambda:newStart(),relief=FLAT,compound= CENTER,image =imageLoader("Button.png"),font = uiFont )
+	startButton_window = canvas.create_window(canvasSizeX - 100,canvasSizeY - 120,window = startButton)
 	
 
-	loadButton = Button(root,anchor = W, text = "Load Game",command = lambda:loader())
+	loadButton = Button(root,anchor = W, text = "Load Game",command = lambda:loader(),relief=FLAT,compound= CENTER,image =imageLoader("Button.png"),font = uiFont )
 	loadButton_window = canvas.create_window(canvasSizeX - 100,canvasSizeY - 50,window = loadButton)
 
 #############################	

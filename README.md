@@ -22,7 +22,7 @@ root.mainloop()
 
 #### 배경과 대사 추가
 ```python
-scene = Scene("배경 이미지 경로", "화자", "대사",대사창 유무
+scene = Scene("배경 이미지 경로", "화자", "대사",대사창 유무)
 ```
 * 배경이미지 경로,화자,대사 모두 문자열로 입력 받습니다.
 * 대사창 유무는 True 혹은 False를 입력받습니다
@@ -98,4 +98,5 @@ root.title("프로그램 이름")
 MIT License
 
 ## 기타
-* [NotonAlcyone](notonalcyone@gmail.com) 질문은 메일로 부탁드립니다.
+* 프로젝트에 관한 질문은 [메일](notonalcyone@gmail.com)로 부탁드립니다.
+* 예시의 이미지는 [유라님](https://www.facebook.com/Astralsoo)이 수고해주셨습니다.

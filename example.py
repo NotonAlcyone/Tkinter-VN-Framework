@@ -3,81 +3,89 @@ from Main import *
 
 
 
-root.title('Missile Continuous Launch System')#VN's nickname in korea :)
+root.title("Someone's Fragment")
 
-scene = Scene("Forest.png","17Y","안녕 고양아아아아아아아아아아아아아아아아아아")
-scene.addCharacter("Character_Normal.png",canvasCenterX,canvasCenterY+100)
+scene = Scene("Background.png","","옆집에서 여자 둘이서 다투는 소리가 들린다...")
 scenes.append(scene)
 
-scene = Scene("Forest.png","Cat","myaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
-scenes.append(scene)
-
-scene = Scene("Forest.png","17Y","나랑같이 우주로 올라갈래?")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
-scenes.append(scene)
-
-scenes.append(scene) #선택지씬
-
-scene = Scene("BackGround.png","Cat","myaaaaaa?")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
-scenes.append(scene)
-
-scene = Scene("BackGround.png","17Y","짠 우주란다!")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
-scenes.append(scene)
-
-scene = Scene("Forest.png","17Y","흐음 가기싫어도 데려갈거야!")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
-scenes.append(scene)
-
-scene = Scene("BackGround.png","17Y","ㅋㅋㅋㅋㅋㅋ 어때?")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
-scenes.append(scene)
-
-scene = Scene("BackGround.png","cat","Mya...")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
+scene = Scene("Background.png","","엿들어볼까..?")
 scenes.append(scene)
 
 scenes.append(scene)
 
-scene = Scene("BackGround.png","17Y","할퀴지 마!")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
+scene = Scene("Background.png","???","...꺼야?")
 scenes.append(scene)
 
-scene = Scene("BackGround.png","17Y","으앜 니 혀 바늘 돋았지")
-scene.addCharacter("Cat_Normal.png",canvasCenterX - 250,canvasCenterY+100)
-scene.addCharacter("Character_Normal.png",canvasCenterX + 250,canvasCenterY+100)
+scene = Scene("Background.png","???","귀찮아아아아아앙~")
 scenes.append(scene)
 
-scene = Scene("BackGround.png","","",False)#background OnlyScene
+scene = Scene("Background.png","???","귀찮다고 집에만 있으면 어떡해 세린아! 나가서 운동도 하고 돈도 벌어야지!")
 scenes.append(scene)
 
-#############################
-encounter = Encounter(3)
-encounter.addSelect("따라간다","Peaceful",1)
-encounter.addSelect("따라가지않는다","Negative",1)
-encounterDict[3] = encounter
+scene = Scene("Background.png","세린","돈이라면 많아~ 아무것도 안해도 상관없어~ 안그래?")
+scenes.append(scene)
+
+scene = Scene("Background.png","???","그게 너네 부모님돈이지 니 돈이냐!")
+scenes.append(scene)
+
+scene = Scene("Background.png","","창문을 통해보면 무슨 일인지 볼수있을텐데... 어떻게 하지?")
+scenes.append(scene)
+
+scenes.append(scene)
+
+scene = Scene("Background.png","세린","아 알았어 나가면 되잖아")
+scene.addCharacter("Serin_Normal.png",canvasCenterX,canvasCenterY+100)
+scenes.append(scene)
+
+scene = Scene("Background.png","???","하여튼 게으른걸로는 우주 최강이라니까...")
+scene.addCharacter("Friend_Look.png",canvasCenterX-300,canvasCenterY+100)
+scene.addCharacter("Serin_Normal.png",canvasCenterX+300,canvasCenterY+100)
+scenes.append(scene)
+
+scene = Scene("Background.png","세린","흑...맞아... 나 그냥 죽어버릴래")
+scene.addCharacter("Friend_Look.png",canvasCenterX-300,canvasCenterY+100)
+scene.addCharacter("Serin_Crying.png",canvasCenterX+300,canvasCenterY+100)
+scenes.append(scene)
+
+scene = Scene("Background.png","???","또또또 그 소리... 빨리 같이 나가자 따라와")
+scene.addCharacter("Friend_Normal.png",canvasCenterX-300,canvasCenterY+100)
+scene.addCharacter("Serin_Crying.png",canvasCenterX+300,canvasCenterY+100)
+scenes.append(scene) #13
+
+scene = Scene("Background.png","","다시 정적이 감돈다...")
+scenes.append(scene)
+
+scene = Scene("Background.png","","엿듣는건 나쁜거니까...")
+scenes.append(scene)
+
+scene = Scene("Background.png","","엿보는건 나쁜거니까...")
+scenes.append(scene)
+
+scene = Scene("Background.png","","잠이나 더 자야지...")
+scenes.append(scene)
+
+###
+encounter = Encounter(2)
+encounter.addSelect("엿듣는다","Fine",1)
+encounter.addSelect("포기한다","ListenX",1)
+encounterDict[2] = encounter
 
 encounter = Encounter(9)
-encounter.addSelect("할퀸다","Nega",1)
-encounter.addSelect("핥는다","Peac",1)
+encounter.addSelect("엿본다","Fine",1)
+encounter.addSelect("포기한다","LookX",1)
 encounterDict[9] = encounter
-#############################
 
-branchMaker(6,7,"Peaceful",1)
-branchMaker(4,6,"Negative",1)
-branchMaker(11,12,"Nega",1)
-branchMaker(10,11,"Peac",1)
+###
 
-mainScene("Forest.png")
+branchMaker(3,15,"ListenX",1)
+branchMaker(16,17,"ListenX",1)
+
+branchMaker(10,17,"LookX",1)
+
+branchMaker(15,17,"Fine",2)
+
+###
+
+mainScene("main.png")
 
 root.mainloop()
