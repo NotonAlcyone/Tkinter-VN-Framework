@@ -18,8 +18,6 @@ namePostionY = 520
 textPositionX = 70
 textPositionY = 615
 
-sceneNumber = 0
-
 barPath = "Bar_Text.png"
 buttonPath = "Button.png"
 nameBarPath = "Bar_Name.png"
@@ -40,6 +38,7 @@ scenes = list()
 encounterDict = {}
 branchDict = {}
 parameterDict= {}
+tmpBranchDict={}
 
 class Scene:
 
@@ -66,7 +65,6 @@ class Encounter:
 	def __init__(self,startScene):
 		self.startScene = startScene
 		self.selectList = []
-		self.check = False
 
 	def addSelect(self,select,parameterName,factor):
 		self.selectList.append(SelectList(select,parameterName,factor))
@@ -79,6 +77,21 @@ class SelectList:
 		if parameter not in parameterDict:
 			parameterDict[parameter] = 0
 		self.factor = factor
+
+class Branch:
+
+	def __init__(self,scene):
+		self.scene = scene
+		self.branchList = []
+
+	def addBranch(self,destination,condition,conditionNumber):
+		self.branchList.append(BranchList(destination,condition,conditionNumber))
+
+class BranchList:
+	def __init__(self,destination,condition,conditionNumber):
+		self.destination = destination
+		self.condition = condition
+		self.conditionNumber = conditionNumber
 
 wordPress = False
 Press = True #this is buttonPress check(sorry for pascal)
@@ -123,7 +136,6 @@ def call(parameter,factor):
 	global Press
 	Press = True
 	parameterDict[parameter] += factor
-	encounterDict[sceneNumber].check = True
 	sceneNumber += 1
 	checker()
 
@@ -136,6 +148,7 @@ def imageLoader(path):
 		return imagePath[path]
 
 def update():
+	print("출력했습니다")
 	canvas.delete('all')
 	global sceneNumber
 	call = scenes[sceneNumber]
@@ -170,23 +183,74 @@ def checker():
 	global sceneNumber
 	global Press
 	global parameterDict
-	if sceneNumber  == len(scenes):
+	"""
+	if sceneNumber in tmpBranchDict:
+		print(tmpBranchDict[sceneNumber].branchList[1].condition)
+		print(len(tmpBranchDict[sceneNumber].branchList))
+		#for i in range(0,len(tmpBranchDict))
+		print(parameterDict)
+		for i in range(0,len(tmpBranchDict[sceneNumber].branchList)):
+			#if tmpBranchDict[sceneNumber].branchList[i].condition
+			print(tmpBranchDict[sceneNumber].branchList[i].condition)
+
+			if parameterDict[tmpBranchDict[sceneNumber].branchList[i].condition] >= tmpBranchDict[sceneNumber].branchList[i].conditionNumber:
+				sceneNumber = tmpBranchDict[sceneNumber].branchList[i].destination
+	"""
+	if sceneNumber == len(scenes):
 		Press = False
 	elif sceneNumber in  encounterDict:
+		Press = False
+		encounterShower()
+		"""
 		if encounterDict[sceneNumber].check == False:
 			Press = False
 			encounterShower()
 		else:
 			update()
+			print("이거 나오긴함?")
+		"""
+		
+	elif sceneNumber in tmpBranchDict:
+		branchStat = False
+		branch = tmpBranchDict[sceneNumber].branchList
+		for i in range(0,len(branch)):
+			if parameterDict[branch[i].condition] >= branch[i].conditionNumber:
+				branchStat = True
+				if sceneNumber != branch[i].destination:
+					sceneNumber = branch[i].destination
+					if sceneNumber in encounterDict: #만약 이동한씬이 인카운터 씬아라면, 바로 그전으로 이동시킴
+						sceneNumber -= 1
+					checker() #이동한 씬에서 또 다른 씬이동이나 질문지가 있는지 검사함
+					break
+				else:
+					update() #조건이 만족했는데 자기 자신으로 이동하라는 경우 그냥 진행함
+					break #일단 위에서부터 조건만족이 걸리면 더이상 탐색안함
+		if branchStat == False:
+			update()
+
+			"""
+			if i <= len(branch):
+				update()
+				print("읎데여")
+			"""
+		#update()
+		#print("여기한번 나옴")
+	else:
+		update()
+		print("정상상황에 의한 업데이트")
+	"""
 	elif sceneNumber in branchDict:
 		if parameterDict[branchDict[sceneNumber]["condition"]] >= branchDict[sceneNumber]["conditionNumber"]:
 			sceneNumber = branchDict[sceneNumber]["destination"]
+
 			update()
 		else:
 			update()
 
 	else:
 		update()
+	"""
+
 
 def branchMaker(scene,destination,condition,conditionNumber):
 	branchDict[scene] = {"destination":destination,"condition":condition,"conditionNumber":conditionNumber}
