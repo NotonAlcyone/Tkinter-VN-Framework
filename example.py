@@ -56,10 +56,12 @@ scenes.append(scene)
 scene = Scene("Background.png","???","또또또 그 소리... 빨리 같이 나가자 따라와")
 scene.addCharacter("Friend_Normal.png",canvasCenterX-300,canvasCenterY+100)
 scene.addCharacter("Serin_Crying.png",canvasCenterX+300,canvasCenterY+100)
-scenes.append(scene) #13
+scenes.append(scene)
+
+
 
 scene = Scene("Background.png","","다시 정적이 감돈다...")
-scenes.append(scene)
+scenes.append(scene) #16
 
 scene = Scene("Background.png","","엿듣는건 나쁜거니까...")
 scenes.append(scene)
@@ -67,13 +69,17 @@ scenes.append(scene)
 scene = Scene("Background.png","","엿보는건 나쁜거니까...")
 scenes.append(scene)
 
-scene = Scene("Background.png","","잠이나 더 자야지...")
+scene = Scene("Background.png","","시 공 좋 아")
 scenes.append(scene)
+
+scene = Scene("Background.png","","잠이나 더 자야지...")
+scenes.append(scene) #20
 
 ###
 encounter = Encounter(2)
 encounter.addSelect("엿듣는다","Fine",1)
 encounter.addSelect("포기한다","ListenX",1)
+encounter.addSelect("시공의 포풍속으로","HotS",1)
 encounterDict[2] = encounter
 
 encounter = Encounter(11)
@@ -82,13 +88,32 @@ encounter.addSelect("포기한다","LookX",1)
 encounterDict[11] = encounter
 
 ###
+branch = Branch(3)
+branch.addBranch(17,"ListenX",1)
+branch.addBranch(19,"HotS",1)
+branchDict[3] = branch
 
-branchMaker(3,17,"ListenX",1)
-branchMaker(18,19,"ListenX",1)
+branch = Branch(12)
+branch.addBranch(18,"LookX",1)
+branchDict[12] = branch
 
-branchMaker(12,19,"LookX",1)
+branch = Branch(16)
+branch.addBranch(18,"LookX",1)
+branchDict[16] = branch
 
-branchMaker(17,19,"Fine",2)
+branch = Branch(17)
+branch.addBranch(20,"Fine",1)
+branch.addBranch(18,"LookX",1)
+branchDict[17] = branch
+
+branch = Branch(18)
+branch.addBranch(20,"ListenX",1)
+branchDict[18] = branch
+
+branch = Branch(19)
+branch.addBranch(20,"ListenX",1)
+branch.addBranch(20,"LookX",1)
+branchDict[19] = branch
 
 ###
 
