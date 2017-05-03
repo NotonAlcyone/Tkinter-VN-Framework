@@ -119,6 +119,9 @@ mainScene("시작화면 이미지")
 * 따로 설정해주지 않는다면 "tk"로 출력됩니다.
 * 시작화면은 반드시 설정해주세요
 
+### 플로우차트
+![diagram](https://cloud.githubusercontent.com/assets/15938440/25658869/007f541e-3040-11e7-9c4c-36fae45f933f.png)
+
 
 ## 라이센스
 MIT License
