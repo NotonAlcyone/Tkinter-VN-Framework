@@ -12,7 +12,7 @@ tkinter 라이브러리를 사용한 비주얼 노벨 프레임워크입니다.
 
 ## 사용법
 
-프로젝트의 main.py 를 임포트 하고 씬,선택지,분기점등을 추가한 후 최하단에 root.mainloop()를 넣고 빌드합니다.
+프로젝트의 main.py 를 임포트 하고 씬,선택지,분기점등을 추가한 후 최하단에 root.mainloop()를 넣고 빌드하며, 기타 수치등은 Stat.py에서 설정합니다.
 ```python
 from main import *
 #################
@@ -21,6 +21,7 @@ script here
 mainScene("시작화면 이미지")
 root.mainloop()
 ```
+
 
 ### 씬 설정
 
@@ -121,11 +122,13 @@ mainScene("시작화면 이미지")
 
 ### 플로우차트
 ![diagram](https://cloud.githubusercontent.com/assets/15938440/25658869/007f541e-3040-11e7-9c4c-36fae45f933f.png)
+* 해당 플로우차트는 [draw.io](https://www.draw.io/)를 이용해 작성되었습니다
 
 
-## 라이센스
-MIT License
+
+## 라이선스
+[MIT License]
 
 ## 기타
 * 프로젝트에 관한 질문은 [메일](notonalcyone@gmail.com)로 부탁드립니다.
-* 예시의 이미지와 음성은 [유라](https://www.facebook.com/Astralsoo)님이 수고해주셨습니다.
+* 예시의 이미지와 음성은 [김연수](https://www.facebook.com/Astralsoo)님이 수고해주셨습니다.

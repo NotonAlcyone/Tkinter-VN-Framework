@@ -1,36 +1,10 @@
 from tkinter import *
+from Stat import *
 import pygame
 import os
 
 root = Tk()
 
-##############################################
-canvasSizeX = 1280 
-canvasSizeY = 720 
-canvasCenterX = canvasSizeX/2
-canvasCenterY = canvasSizeY/2
-
-speechBarPositionX = canvasCenterX
-speechBarPositionY = 620
-
-namePostionX = 192
-namePostionY = 520
-textPositionX = 70
-textPositionY = 615
-
-barPath = "Bar_Text.png"
-buttonPath = "Button.png"
-nameBarPath = "Bar_Name.png"
-imageFolder = "image/"
-voiceFolder = "voice/"
-
-nameFont = "Helvetica 15"
-textFont = "Helvetica 20"
-uiFont = "Courier 10"
-
-encounterSpace = 130
-
-##############################################
 
 
 imagePath = {}
