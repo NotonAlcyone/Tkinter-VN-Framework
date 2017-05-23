@@ -27,4 +27,15 @@ uiFont = "Courier 10"
 
 encounterSpace = 130 #선택지 이미지 파일간 거리
 
+textTypeSpeed = 0.05 #대사 타이핑 속도
+
+voiceVolume = 10 #대사 보이스 볼륨
+
+titleBGM = True
+titleBGMPath = "titletheme.wav"
+titleBGMVolume = 10
+ingameBGM = True
+ingameBGMPath = "maintheme.wav"
+ingameBGMVolume = 2
+
 ##############################################

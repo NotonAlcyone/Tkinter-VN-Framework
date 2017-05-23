@@ -90,9 +90,9 @@ def wordType(str,counter):
 		global text
 		global textInvoke
 		text = canvas.create_text(textPositionX,textPositionY,text= str[:counter],anchor = W,font = textFont)
-		textInvoke = canvas.after(100,lambda:wordType(str,counter+1))
+		textInvoke = canvas.after(int(textTypeSpeed*1000),lambda:wordType(str,counter+1))
 		if counter < len(str):
-			canvas.after(99,lambda:wordDelete())
+			canvas.after(int((textTypeSpeed*1000)-1),lambda:wordDelete())
 	else:
 		wordPress = False
 def wordDelete():
@@ -139,6 +139,7 @@ def update():
 	global voice
 	if scenes[sceneNumber].voice != 0:
 		voice = pygame.mixer.Sound(voiceFolder+scenes[sceneNumber].voice)
+		voice.set_volume(voiceVolume/10)
 		voice.play()
 	saveButton = Button(root,text = "Save",command = lambda: saver(),relief=FLAT,compound= CENTER,image =imageLoader(buttonPath),font = uiFont )
 	saveButton_window = canvas.create_window(canvasSizeX - 100,50,window = saveButton)
@@ -158,6 +159,7 @@ def checker():
 
 	if sceneNumber == len(scenes):
 		Press = False
+		gameTheme.stop()
 	elif sceneNumber in  encounterDict:
 		Press = False
 		encounterShower()
@@ -192,6 +194,7 @@ def encounterShower():
 def loader():
 	global sceneNumber
 	global parameterDict
+	bgmStarter()
 	if os.path.isfile("saver.txt"):
 		file = open("saver.txt",'r')
 		data = file.readlines()		
@@ -206,14 +209,35 @@ def loader():
 		update()
 		canvas.bind("<Button-1>",keyPressed)
 def newStart():
+	bgmStarter()
 	global sceneNumber
 	sceneNumber = 0
 	update()
 	canvas.bind("<Button-1>",keyPressed)
 
+
+def bgmStarter():
+	if titleBGM == True:
+		titleTheme.fadeout(800)
+
+	if ingameBGM == True:
+		gameTheme.play(loops=-1)
+
 #############################
 
 def mainScene(background):
+
+	if titleBGM == True:
+		global titleTheme
+		titleTheme = pygame.mixer.Sound(voiceFolder + titleBGMPath)
+		titleTheme.set_volume(titleBGMVolume/10)
+		titleTheme.play(loops=-1)
+	if ingameBGM == True:
+		global gameTheme
+		gameTheme = pygame.mixer.Sound(voiceFolder + ingameBGMPath)
+		gameTheme.set_volume(ingameBGMVolume/10)
+
+
 
 	canvas.create_image(canvasCenterX,canvasCenterY,image = imageLoader(background))
 	
