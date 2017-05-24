@@ -71,16 +71,18 @@ Press = True #this is buttonPress check(sorry for pascal)
 def keyPressed(event):
 	global Press
 	global wordPress
+	global sceneNumber
 	if Press == True:
 		if wordPress == False:
-			global sceneNumber
+			voiceStop()
 			sceneNumber += 1
 			wordPress = True
 			checker()
 		elif wordPress == True:
-			if scenes[sceneNumber].voice != 0:
-				voice.stop()
 			wordCancel()
+def voiceStop():
+	if scenes[sceneNumber].voice != 0:
+		voice.stop()
 
 def wordType(str,counter):
 	global Press
@@ -121,6 +123,7 @@ def imageLoader(path):
 		return imagePath[path]
 
 def update():
+	global voice
 	canvas.delete('all')
 	global sceneNumber
 	call = scenes[sceneNumber]
@@ -136,7 +139,7 @@ def update():
 		
 	canvas.create_text(namePostionX,namePostionY,text = scenes[sceneNumber].speecher,font = nameFont)
 	wordType(scenes[sceneNumber].speech,0)
-	global voice
+
 	if scenes[sceneNumber].voice != 0:
 		voice = pygame.mixer.Sound(voiceFolder+scenes[sceneNumber].voice)
 		voice.set_volume(voiceVolume/10)
