@@ -117,6 +117,11 @@ branchDict[19] = branch
 
 ###
 
+
+musicQueue(0,11,"maintheme.wav")
+musicQueue(12,12,"titletheme.wav")
+musicQueue(13,13,"maintheme.wav")
+
 mainScene("main.png")
 
 root.mainloop()

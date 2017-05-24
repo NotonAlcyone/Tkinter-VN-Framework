@@ -12,6 +12,9 @@ scenes = list()
 encounterDict = {}
 parameterDict= {}
 branchDict={}
+musicDict={}
+musicDefDict = {}
+gameTheme = None
 
 class Scene:
 
@@ -75,7 +78,8 @@ def keyPressed(event):
 	if Press == True:
 		if wordPress == False:
 			voiceStop()
-			sceneNumber += 1
+			sceneMover(False,1)
+			#sceneNumber += 1
 			wordPress = True
 			checker()
 		elif wordPress == True:
@@ -84,34 +88,53 @@ def voiceStop():
 	if scenes[sceneNumber].voice != 0:
 		voice.stop()
 
-def wordType(str,counter):
+def sceneMover(move,amount):
+	global sceneNumber
+	if move == True:
+		sceneNumber = amount
+	else:
+		sceneNumber += amount
+
+text = []
+def wordType(str,counter,x,y,speed):
 	global Press
 	global wordPress
 	wordPress = True
-	if counter <= len(str):
+	if counter <= len(str) - 1:
 		global text
 		global textInvoke
-		text = canvas.create_text(textPositionX,textPositionY,text= str[:counter],anchor = W,font = textFont)
-		textInvoke = canvas.after(int(textTypeSpeed*1000),lambda:wordType(str,counter+1))
-		if counter < len(str):
-			canvas.after(int((textTypeSpeed*1000)-1),lambda:wordDelete())
+		if str[counter] == "\n":
+			textInvoke = canvas.after(0,lambda:wordType(str,counter+1,textPositionX,y + lineHeight, speed))
+		elif str[counter] == " ":
+			textInvoke = canvas.after(speed,lambda:wordType(str,counter+1,x + (letterSpace/2),y,speed))
+		elif str[counter] in specialWord:
+			text.append(canvas.create_text(x,y,text=str[counter], anchor = NW,font = textFont))
+			textInvoke = canvas.after(speed,lambda:wordType(str,counter+1,x + (letterSpace/2),y,speed))
+		else:
+			text.append(canvas.create_text(x,y,text=str[counter], anchor = NW,font = textFont))
+			textInvoke = canvas.after(speed,lambda:wordType(str,counter+1,x+letterSpace,y,speed))
 	else:
 		wordPress = False
-def wordDelete():
-	canvas.delete(text)
+		text = []
 def wordCancel():
 	global wordPress
+	global text
 	wordPress = False
+
 	canvas.after_cancel(textInvoke)
-	canvas.delete(text)
-	canvas.create_text(textPositionX,textPositionY,text= scenes[sceneNumber].speech,anchor = W,font = textFont)
+	for i in range(0,len(text)):
+		canvas.delete(text[i])
+	text = []
+	wordType(scenes[sceneNumber].speech,0,textPositionX,textPositionY,0)
+	
 
 def call(parameter,factor):
 	global sceneNumber
 	global Press
 	Press = True
 	parameterDict[parameter] += factor
-	sceneNumber += 1
+	sceneMover(False,1)
+	#sceneNumber += 1
 	checker()
 
 def imageLoader(path):
@@ -124,6 +147,8 @@ def imageLoader(path):
 
 def update():
 	global voice
+	global gameTheme
+	global playStat
 	canvas.delete('all')
 	global sceneNumber
 	call = scenes[sceneNumber]
@@ -138,15 +163,36 @@ def update():
 		canvas.create_image(namePostionX,namePostionY,image=imageLoader(nameBarPath))
 		
 	canvas.create_text(namePostionX,namePostionY,text = scenes[sceneNumber].speecher,font = nameFont)
-	wordType(scenes[sceneNumber].speech,0)
+	wordType(scenes[sceneNumber].speech,0,textPositionX,textPositionY,int(textTypeSpeed * 1000))
 
 	if scenes[sceneNumber].voice != 0:
 		voice = pygame.mixer.Sound(voiceFolder+scenes[sceneNumber].voice)
 		voice.set_volume(voiceVolume/10)
 		voice.play()
+
+	if ingameBGM == True:
+		if sceneNumber in musicDict:
+			if gameTheme != musicDefDict[musicDict[sceneNumber]]:
+				if gameTheme == None:
+					musicChecker(musicDict[sceneNumber])
+				else:
+					gameTheme.fadeout(800)
+					musicChecker(musicDict[sceneNumber])
+					playStat = True
+			else:
+				if playStat == False:
+					gameTheme.play(loops = -1)
+					playStat = True
+		else:
+			gameTheme.fadeout(800)
+			playStat = False
 	saveButton = Button(root,text = "Save",command = lambda: saver(),relief=FLAT,compound= CENTER,image =imageLoader(buttonPath),font = uiFont )
 	saveButton_window = canvas.create_window(canvasSizeX - 100,50,window = saveButton)
-
+def musicChecker(Name):
+	global gameTheme
+	gameTheme = musicDefDict[Name]
+	gameTheme.set_volume(BGMVolume/10)
+	gameTheme.play(loops = -1)
 def saver():
 	global sceneNumber
 	global parameterDict
@@ -173,9 +219,11 @@ def checker():
 			if parameterDict[branch[i].condition] >= branch[i].conditionNumber:
 				if sceneNumber != branch[i].destination:
 					branchStat = True
-					sceneNumber = branch[i].destination
+					sceneMover(True,branch[i].destination)
+					#sceneNumber = branch[i].destination
 					if sceneNumber in encounterDict: #만약 이동한씬이 인카운터 씬아라면, 바로 그전으로 이동시킴
-						sceneNumber -= 1
+						sceneMover(False,-1)
+						#sceneNumber -= 1
 					checker() #이동한 씬에서 또 다른 씬이동이나 질문지가 있는지 검사함
 					break
 				else:#조건이 만족했는데 자기 자신으로 이동하라는 경우 그냥 진행함
@@ -187,60 +235,63 @@ def checker():
 
 def encounterShower():
 	global sceneNumber
-
-	encounterStart = (canvasSizeY - len(encounterDict[sceneNumber].selectList)*encounterSpace)/2
-	for i in range(0,len(encounterDict[sceneNumber].selectList)):
-		button = Button(root,text = encounterDict[sceneNumber].selectList[i].select,command = lambda i = i: call(encounterDict[sceneNumber].selectList[i].parameter,encounterDict[sceneNumber].selectList[i].factor),relief=FLAT,compound= CENTER,image =imageLoader("Bar_Select.png"),font = nameFont )
+	encount = encounterDict[sceneNumber].selectList
+	encounterStart = (canvasSizeY - len(encount)*encounterSpace)/2
+	for i in range(0,len(encount)):
+		button = Button(root,text = encount[i].select,command = lambda i = i: call(encount[i].parameter,encount[i].factor),relief=FLAT,compound= CENTER,image =imageLoader("Bar_Select.png"),font = nameFont )
 		button_window = canvas.create_window(canvasCenterX,encounterStart + i*encounterSpace,window = button)
 
 #############################
 def loader():
 	global sceneNumber
 	global parameterDict
-	bgmStarter()
+	titleMusicCheck()
 	if os.path.isfile("saver.txt"):
 		file = open("saver.txt",'r')
-		data = file.readlines()		
-		sceneNumber = int(data[0][:-1])
+		data = file.readlines()
+		sceneMover(True,int(data[0][:-1]))		
+		#sceneNumber = int(data[0][:-1])
 		parameterDict = eval(data[1])
 		if sceneNumber in encounterDict:
-			sceneNumber -= 1
+			sceneMover(False,-1)
+			#sceneNumber -= 1
 		update()
 		canvas.bind("<Button-1>",keyPressed)
 	else:
+		#sceneMover(True,0)
 		sceneNumber = 0
 		update()
 		canvas.bind("<Button-1>",keyPressed)
 def newStart():
-	bgmStarter()
+	titleMusicCheck()
 	global sceneNumber
+	#sceneMover(True,0)
 	sceneNumber = 0
 	update()
 	canvas.bind("<Button-1>",keyPressed)
 
+def titleMusicCheck():
+	if ingameBGM == False:
+		gameTheme.fadeout(800)
+		playStat = False
 
-def bgmStarter():
-	if titleBGM == True:
-		titleTheme.fadeout(800)
+def musicQueue(startNumber,endNumber,musicName):
+	for i in range(startNumber,endNumber+1):
+		musicDict[i] = musicName
+	if musicName not in musicDefDict:
+		musicDefDict[musicName] = pygame.mixer.Sound(voiceFolder+musicName)
 
-	if ingameBGM == True:
-		gameTheme.play(loops=-1)
 
 #############################
 
 def mainScene(background):
 
 	if titleBGM == True:
-		global titleTheme
-		titleTheme = pygame.mixer.Sound(voiceFolder + titleBGMPath)
-		titleTheme.set_volume(titleBGMVolume/10)
-		titleTheme.play(loops=-1)
-	if ingameBGM == True:
 		global gameTheme
-		gameTheme = pygame.mixer.Sound(voiceFolder + ingameBGMPath)
-		gameTheme.set_volume(ingameBGMVolume/10)
-
-
+		gameTheme = pygame.mixer.Sound(voiceFolder + titleBGMPath)
+		gameTheme.set_volume(BGMVolume/10)
+		gameTheme.play(loops=-1)
+		playStat = True
 
 	canvas.create_image(canvasCenterX,canvasCenterY,image = imageLoader(background))
 	
