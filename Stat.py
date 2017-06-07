@@ -1,8 +1,8 @@
 ##############################################
 canvasSizeX = 1280 
 canvasSizeY = 720
-canvasCenterX = canvasSizeX/2
-canvasCenterY = canvasSizeY/2
+canvasCenterX = canvasSizeX / 2
+canvasCenterY = canvasSizeY / 2
 
 
 speechBarPositionX = canvasCenterX #대사창 위치
@@ -38,7 +38,6 @@ titleBGM = True
 ingameBGM = True
 titleBGMPath = "titletheme.wav"
 BGMVolume = 3
-
 
 specialWord = ["!",",","?",".","~"] #특수문자 목록
 
