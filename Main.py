@@ -250,7 +250,7 @@ def newStart():
 	canvas.bind("<Button-1>", keyPressed)
 
 def titleMusicCheck():
-	if ingameBGM == False:
+	if titleBGM == True and ingameBGM == False:
 		gameTheme.fadeout(800)
 		playStat = False
 
