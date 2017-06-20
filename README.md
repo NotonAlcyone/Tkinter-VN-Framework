@@ -1,10 +1,10 @@
 # Tkinter Visualnovel Framework
 
-tkinter 라이브러리를 사용한 비주얼 노벨 프레임워크입니다.
+GUI로 tkinter를, 음악부분에 pygame을 사용한 비주얼 노벨 프레임워크입니다.
 
 ![sample](https://cloud.githubusercontent.com/assets/15938440/23822326/83f86082-068e-11e7-9805-c2ccef352f1a.png)
 
-## 사용프로그램
+## 사용 언어및 라이브러리
 	
 * Python 3
 * tkinter 
@@ -13,6 +13,7 @@ tkinter 라이브러리를 사용한 비주얼 노벨 프레임워크입니다.
 ## 사용법
 
 프로젝트의 main.py 를 임포트 하고 씬,선택지,분기점등을 추가한 후 최하단에 root.mainloop()를 넣고 빌드하며, 기타 수치등은 Stat.py에서 설정합니다.
+
 ```python
 from main import *
 #################
@@ -21,6 +22,8 @@ script here
 mainScene("시작화면 이미지")
 root.mainloop()
 ```
+
+* example.py 를 예제로 첨부했습니다.
 
 
 ### 씬 설정
@@ -31,6 +34,7 @@ root.mainloop()
 ```python
 scene = Scene("배경 이미지 경로", "화자", "대사", "음성 경로")
 ```
+
 * 배경이미지 경로,화자,대사,음성 경로 모두 문자열로 입력 받습니다.
 * 배경이미지와 음성은 ***.png 식으로 확장자이름도 전부 작성해줍니다.
 * 화자를 공백으로 넣고싶으시다면 "" 로 빈문자열을 넣어주세요.
@@ -40,15 +44,19 @@ scene = Scene("배경 이미지 경로", "화자", "대사", "음성 경로")
 
 
 #### 이미지 추가
+
 ```python
 scene.addCharacter("이미지 경로", X 좌표, Y 좌표)
 ```
+
 * 이미지 경로는 문자열, X와 Y좌표는 정수를 입력 받습니다.
 
 #### 마무리
+
 ```python
 scenes.append(scene)
 ```
+
 * 위에서 설정된 설정들을 실제로 씬리스트에 넣습니다.
 * 최초로 추가된 0번씬부터 시작해서 씬 넘버가 1씩 증가하며 저장됩니다.
 * 단독으로 사용할경우 비어있는 씬이 씬리스트에 추가됩니다.
@@ -59,23 +67,30 @@ scenes.append(scene)
 
 ### 선택지 설정
 ![sample2](https://cloud.githubusercontent.com/assets/15938440/23822344/e1d831b4-068e-11e7-9b7c-c0ea917d8600.png)
+
 #### 선택지 추가
+
 ```python
 encounter = Encounter(씬 넘버)
 ```
+
 * 씬넘버는 정수형을 입력받습니다.
 
 #### 대답 추가
+
 ```python
 encounter.addSelect("질문 대답", "조건 이름",조건의 증가치)
 ```
+
 * 질문 대답과 조건 이름 모두 문자형을 입력 받습니다.
 * 조건 이름은 기본적으로 0 값을 가지게 되며, 실제로 버튼이 눌렸을경우 증가치만큼 증가합니다.
 
 #### 마무리
+
 ```python
 encounterDict[씬 넘버] = encounter
 ```
+
 * 씬 넘버는 정수형이고, 반드시 선택지를 추가했을때의 씬넘버와 같아야 합니다.
 
 #### 참고사항
@@ -86,9 +101,11 @@ encounterDict[씬 넘버] = encounter
 
 ### 분기점 설정
 #### 분기점 시작
+
 ```python
 branch = Branch(출발 씬 넘버)
 ```
+
 * 출발 씬넘버는 정수형을 입력 받습니다.
 * 출발씬을 출력하기 이전에 선택지에서 설정한 조건의 값이 조건상태보다 크거나 같을경우 씬을 강제로 도착 씬으로 옮깁니다.
 
