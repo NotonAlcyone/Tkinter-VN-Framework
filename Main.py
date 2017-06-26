@@ -92,6 +92,8 @@ def wordType(str, counter, x, y, speed):
 		global text
 		global textInvoke
 		if str[counter] == "\n":
+			for i in range(0, len(text)):
+				canvas.move(text[i],0,-lineHeight)
 			textInvoke = canvas.after(0, lambda: wordType(str, counter + 1, textPositionX, y + lineHeight, speed))
 		elif str[counter] == " ":
 			textInvoke = canvas.after(speed, lambda: wordType(str, counter + 1, x + (letterSpace / 2), y, speed))
