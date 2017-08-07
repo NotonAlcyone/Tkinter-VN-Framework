@@ -57,6 +57,13 @@ class BranchList:
 		self.condition = condition
 		self.conditionNumber = conditionNumber
 
+def sceneTester():
+	for i in range(0,len(scenes)):
+		if i in encounterDict:
+			print(str(i) + "선택지 입니다.")
+		else:
+			print(str(i)+ scenes[i].speech)
+
 wordPress = False
 press = True
 def keyPressed(event):
