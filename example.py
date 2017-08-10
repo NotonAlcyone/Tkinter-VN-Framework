@@ -116,4 +116,3 @@ musicQueue(13, 13, "maintheme.wav")
 mainScene("main.png")
 
 root.mainloop()
-

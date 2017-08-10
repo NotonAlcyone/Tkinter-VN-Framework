@@ -60,9 +60,30 @@ class BranchList:
 def sceneTester():
 	for i in range(0,len(scenes)):
 		if i in encounterDict:
-			print(str(i) + "선택지 입니다.")
+			print("{i} 선택지 씬 입니다.".format(i=i))
+			encounter = encounterDict[i].selectList
+			for j in range(len(encounter)):
+				print("	[{select}] 선택시 ({parameter}) 수치 {factor} 만큼 변화".format(select = encounter[j].select,parameter = encounter[j].parameter, factor = encounter[j].factor))
+
 		else:
-			print(str(i)+ scenes[i].speech)
+			print("{i} {speech}".format(i=i,speech  = scenes[i].speech))
+
+
+def branchTester():
+	for i in range ( 0, len(scenes)):
+		if i in branchDict:
+			print("씬 넘버 {i}".format(i = i))
+			branch = branchDict[i].branchList
+			for j in range(0,len(branch)):
+				print("조건 {condition}이 {conditionNumber} 이상일때 {destination} 으로 이동".format(condition =branch[j].condition, conditionNumber =branch[j].conditionNumber,destination = branch[j].destination))
+			print("----------------")
+
+def musicTester():
+	for i in range(0,len(scenes)):
+		if i in musicDict:
+			print("{i}번 씬에 재생되는 음악은 {music} 입니다.".format(i = i,music = musicDict[i]))
+
+
 
 wordPress = False
 press = True
