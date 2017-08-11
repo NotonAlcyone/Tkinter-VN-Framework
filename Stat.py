@@ -34,12 +34,16 @@ lineHeight = 15 #행간
 
 voiceVolume = 10 #음성 볼륨
 
+saveButton = True
+nameBarStat = True
+
+autoLineAddMove = False;
+
 titleBGM = True
 ingameBGM = True
 titleBGMPath = "titletheme.wav"
 BGMVolume = 3
 
-specialWord = ["!", ",", "?", ".", "~"] #특수문자 목록
-
+specialWord = ["!", ",", "?", ".", "~",'"'] #특수문자 목록
 
 ##############################################

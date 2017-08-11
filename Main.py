@@ -120,16 +120,17 @@ def wordType(str, counter, x, y, speed):
 		global text
 		global textInvoke
 		if str[counter] == "\n":
-			for i in range(0, len(text)):
-				canvas.move(text[i],0,-lineHeight)
+			if autoLineAddMove == True:
+				for i in range(0, len(text)):
+					canvas.move(text[i],0,-lineHeight)
 			textInvoke = canvas.after(0, lambda: wordType(str, counter + 1, textPositionX, y + lineHeight, speed))
 		elif str[counter] == " ":
 			textInvoke = canvas.after(speed, lambda: wordType(str, counter + 1, x + (letterSpace / 2), y, speed))
 		elif str[counter] in specialWord:
-			text.append(canvas.create_text(x, y, text = str[counter], anchor = NW, font = textFont))
+			text.append(canvas.create_text(x, y, text = str[counter], anchor = NW, font = textFont, fill = textFontColor))
 			textInvoke = canvas.after(speed, lambda: wordType(str, counter + 1, x + (letterSpace / 2), y, speed))
 		else:
-			text.append(canvas.create_text(x, y, text = str[counter], anchor = NW, font = textFont))
+			text.append(canvas.create_text(x, y, text = str[counter], anchor = NW, font = textFont, fill = textFontColor))
 			textInvoke = canvas.after(speed, lambda: wordType(str, counter + 1, x + letterSpace, y, speed))
 	else:
 		wordPress = False
@@ -174,10 +175,10 @@ def update():
 		canvas.create_image(charCall.positionX, charCall.positionY, image = imageLoader(charCall.imagePath))
 	if scenes[sceneNumber].speech != "":
 		canvas.create_image(speechBarPositionX, speechBarPositionY, image = imageLoader(barPath))
-	if scenes[sceneNumber].speecher != "":
+	if scenes[sceneNumber].speecher != "" and nameBarStat == True:
 		canvas.create_image(namePostionX, namePostionY, image = imageLoader(nameBarPath))
 		
-	canvas.create_text(namePostionX, namePostionY, text = scenes[sceneNumber].speecher, font = nameFont)
+	canvas.create_text(namePostionX, namePostionY, text = scenes[sceneNumber].speecher, font = nameFont, fill= nameFontColor)
 	wordType(scenes[sceneNumber].speech, 0, textPositionX, textPositionY, int(textTypeSpeed * 1000))
 
 	if scenes[sceneNumber].voice != None:
@@ -185,8 +186,9 @@ def update():
 		voice.set_volume(voiceVolume / 10)
 		voice.play()
 
-	saveButton = Button(root, text = "Save", command = saver, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
-	saveButton_window = canvas.create_window(canvasSizeX - 100, 50, window = saveButton)
+	if saveButton == True:
+		saveButton = Button(root, text = "Save", command = saver, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
+		saveButton_window = canvas.create_window(canvasSizeX - 100, 50, window = saveButton)
 
 	if ingameBGM == False:
 		return
@@ -301,8 +303,9 @@ def mainScene(background):
 	canvas.create_image(canvasCenterX, canvasCenterY, image = imageLoader(background))
 	startButton = Button(root, anchor = W, text = "New Game", command = newStart, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
 	startButton_window = canvas.create_window(canvasSizeX - 100, canvasSizeY - 120, window = startButton)
-	loadButton = Button(root, anchor = W, text = "Load Game", command = loader, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
-	loadButton_window = canvas.create_window(canvasSizeX - 100, canvasSizeY - 50, window = loadButton)
+	if saveButton == True:
+		loadButton = Button(root, anchor = W, text = "Load Game", command = loader, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
+		loadButton_window = canvas.create_window(canvasSizeX - 100, canvasSizeY - 50, window = loadButton)
 
 #############################	
 canvas = Canvas(root, width = canvasSizeX, height = canvasSizeY)
