@@ -187,8 +187,8 @@ def update():
 		voice.play()
 
 	if saveButton == True:
-		saveButton = Button(root, text = "Save", command = saver, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
-		saveButton_window = canvas.create_window(canvasSizeX - 100, 50, window = saveButton)
+		saveButton1 = Button(root, text = "Save", command = saver, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
+		saveButton_window = canvas.create_window(canvasSizeX - 100, 50, window = saveButton1)
 
 	if ingameBGM == False:
 		return
@@ -226,7 +226,8 @@ def checker():
 	global parameterDict
 	if sceneNumber == len(scenes):
 		press = False
-		gameTheme.stop()
+		if ingameBGM == True:
+			gameTheme.stop()
 	elif sceneNumber in  encounterDict:
 		press = False
 		encounterShower()
@@ -307,6 +308,33 @@ def mainScene(background):
 		loadButton = Button(root, anchor = W, text = "Load Game", command = loader, relief = FLAT, compound = CENTER, image = imageLoader(buttonPath), font = uiFont)
 		loadButton_window = canvas.create_window(canvasSizeX - 100, canvasSizeY - 50, window = loadButton)
 
+
+
+
+def jsonParser():
+	for i in range(0,len(data)):
+		t = str(i+1)
+		if data[t]["sceneType"] == "Scene":
+			trueData = data[t]["scene"]
+			if "Voice" in trueData:
+				scene = Scene(trueData["BGpath"],trueData["Speecher"],trueData["Speech"],trueData["Voice"])
+				scenes.append(scene)		
+			else:
+				scene = Scene(trueData["BGpath"],trueData["Speecher"],trueData["Speech"])
+				scenes.append(scene)
+		elif data[t]["sceneType"] == "Encounter":
+			scenes.append(scene)
+			encounter = Encounter(t)
+			for j in range(0,len(data[t]["encounter"] )):
+				sht = data[t]["encounter"]
+				encounter.addSelect(sht["select"], sht["parameter"], int(sht["factor"]))
+			encounterDict[t] = encounter
+		if "branch" in data[t]:
+			branch = Branch(t)
+			for k in range(0,len(data[t]["branch"])):
+				shr = data[k]["branch"]
+				branch.addBrach(int(shr["destination"]),shr["condition"],int(shr["conditionNum"]))
+			branchDict[t] = branch
 #############################	
 canvas = Canvas(root, width = canvasSizeX, height = canvasSizeY)
 canvas.pack()

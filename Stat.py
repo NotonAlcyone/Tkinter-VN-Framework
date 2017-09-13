@@ -34,6 +34,9 @@ lineHeight = 15 #행간
 
 voiceVolume = 10 #음성 볼륨
 
+nameFontColor = 'black'
+textFontColor = 'black'
+
 saveButton = True
 nameBarStat = True
 
