@@ -1,0 +1,213 @@
+[
+    {
+        "sceneType": "Scene",
+        "Music": "maintheme.wav",
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "세린",
+            "Speech": "흑...맞아... 나 그\n냥 죽어버릴래",
+            "Voice": "Voice.wav",
+            "character": [
+                {
+                    "imagePath": "Friend_Look.png",
+                    "X": "340",
+                    "Y": "460"
+                },
+                {
+                    "imagePath": "Serin_Crying.png",
+                    "X": "940",
+                    "Y": "460"
+                }
+            ]
+        }
+    },
+    {
+        "sceneType": "Scene",
+        "Music": "titletheme.wav",
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "",
+            "Speech": "",
+            "voice": "",
+            "character": [
+                {
+                    "imagePath": "Friend_Look.png",
+                    "X": "340",
+                    "Y": "460"
+                },
+                {
+                    "imagePath": "Serin_Crying.png",
+                    "X": "940",
+                    "Y": "460"
+                }
+            ]
+        }
+    },
+    {
+        "sceneType": "Scene",
+        "Music": "titletheme.wav",
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "누군가",
+            "Speech": "흑...맞아... 나 그냥 죽어버릴래",
+            "voice": "",
+            "character": [
+                {
+                    "imagePath": "Friend_Look.png",
+                    "X": "340",
+                    "Y": "460"
+                },
+                {
+                    "imagePath": "Serin_Crying.png",
+                    "X": "940",
+                    "Y": "460"
+                }
+            ]
+        }
+    },
+    {
+        "sceneType": "Scene",
+        "Music": "maintheme.wav",
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "",
+            "Speech": "",
+            "voice": "",
+            "character": [
+                {
+                    "imagePath": "Friend_Look.png",
+                    "X": "340",
+                    "Y": "460"
+                },
+                {
+                    "imagePath": "Serin_Crying.png",
+                    "X": "940",
+                    "Y": "460"
+                }
+            ]
+        }
+    },
+    {
+        "sceneType": "Encounter",
+        "Music": "maintheme.wav",
+        "encounter": [
+            {
+                "select": "히오스 하고싶다",
+                "parameter": "HOS",
+                "factor": 1
+            },
+            {
+                "select": "롤하고 싶다",
+                "parameter": "LOL",
+                "factor": 1
+            },
+            {
+                "select": "그럼 답은 도타야",
+                "parameter": "DOTA",
+                "factor": 1
+            }
+        ]
+    },
+    {
+        "sceneType": "Scene",
+        "Music": "maintheme.wav",
+        "branch": [
+            {
+                "condition": "HOS",
+                "conditionNum": 1,
+                "destination": 7
+            },
+            {
+                "condition": "DOTA",
+                "conditionNum": 1,
+                "destination": 6
+            }
+        ],
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "노튼",
+            "Speech": "어휴 님 롤충?",
+            "voice": "",
+            "character": [
+                {
+                    "imagePath": "Friend_Look.png",
+                    "X": "340",
+                    "Y": "460"
+                },
+                {
+                    "imagePath": "Serin_Crying.png",
+                    "X": "940",
+                    "Y": "460"
+                }
+            ]
+        }
+    },
+    {
+        "sceneType": "Scene",
+        "Music": "maintheme.wav",
+        "branch": [
+            {
+                "condition": "LOL",
+                "conditionNum": 1,
+                "destination": 8
+            }
+        ],
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "노튼",
+            "Speech": "어휴 님 도타충?",
+            "voice": "",
+            "character": [
+                {
+                    "imagePath": "Friend_Look.png",
+                    "X": "340",
+                    "Y": "460"
+                },
+                {
+                    "imagePath": "Serin_Crying.png",
+                    "X": "940",
+                    "Y": "460"
+                }
+            ]
+        }
+    },
+    {
+        "sceneType": "Scene",
+        "Music": "maintheme.wav",
+        "branch": [
+            {
+                "condition": "DOTA",
+                "conditionNum": 1,
+                "destination": 8
+            }
+        ],
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "노튼",
+            "Speech": "어휴 님 시공충?",
+            "voice": "",
+            "character": [
+                {
+                    "imagePath": "Friend_Look.png",
+                    "X": "340",
+                    "Y": "460"
+                },
+                {
+                    "imagePath": "Serin_Crying.png",
+                    "X": "940",
+                    "Y": "460"
+                }
+            ]
+        }
+    },
+    {
+        "sceneType": "Scene",
+        "Music": "maintheme.wav",
+        "scene": {
+            "BGpath": "Background.png",
+            "Speecher": "노튼",
+            "Speech": "끝났음 ㅅㄱ",
+            "voice": ""
+        }
+    }
+]
